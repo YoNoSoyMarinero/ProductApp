@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"
+      defer
+    ></script>
+    <script src="app.js" defer></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+              <li>
+                <span id="logged-user-span" class="btn btn-close-white"></span>
+              </li>
+              <li class="nav-item">
+                <button class="btn btn-danger" id="logout-button">Log Out</>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <div class="container" id = "registration-form-div">
+        <h2>Registration</h2>
+        <form id="registration-form">
+          <div class="mb-3">
+            <label for="username-registration" class="form-label">Username</label>
+            <input type="text" class="form-control" id="username-registration" placeholder="Enter your username">
+          </div>
+          <div class="mb-3">
+            <label for="email-registration" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email-registration" placeholder="Enter your email">
+          </div>
+          <div class="mb-3">
+            <label for="password-registration" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password-registration" placeholder="Enter your password">
+          </div>
+          <div class="mb-3">
+            <label for="confirm-password-registration" class="form-label">Confirm Password</label>
+            <input type="password" class="form-control" id="confirm-password-registration" placeholder="Confirm your password">
+          </div>
+          <button type="submitRegistration" class="btn btn-primary">Register</button>
+          <button type="button" class="btn btn-primary" id="registration-form-login-button">LogIn</button>
+        </form>
+      </div>
+      <div class="container" id="login-form-div">
+        <h2>Log In</h2>
+        <form id="login-form">
+          <div class="mb-3">
+            <label for="username-login" class="form-label">Username</label>
+            <input type="text" class="form-control" id="username-login" placeholder="Enter your username">
+          </div>
+          <div class="mb-3">
+            <label for="password-login" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password-login" placeholder="Enter your password">
+          </div>
+          <button type="submitRegistration" class="btn btn-primary">LogIn</button>
+          <button type="button" class="btn btn-primary" id="login-form-registration-button">Registration</button>
+        </form>
+      </div>
+      <div class = "container" id = "app-div">
+        <div id= "table-div"></div>
+        <div class="container" id="add-element-div">
+            <h1 class="mt-4">Add element</h1>
+            <form id="add-element-form">
+              <div class="form-group">
+                <label for="input1">Input1:</label>
+                <input type="text" class="form-control" id="input1-post" placeholder="Enter input1" name="input1">
+              </div>
+              <div class="form-group">
+                <label for="input2">Input2:</label>
+                <input type="number" class="form-control" id="input2-post" placeholder="Enter input2" name="input2">
+              </div>
+              <div class="form-group">
+                <label for="input3">Input3:</label>
+                <select class="form-control" id="input3-post" name="input3">
+                </select>
+              </div>
+              <button type="submit" class="btn btn-primary">Submit</button>
+              <button type="button" class="btn btn-danger" id="giveup-post-button">Clear</button>
+            </form>
+          </div>
+          <div class="container" id="edit-element-div">
+            <h1 class="mt-4">Edit element</h1>
+            <form id="edit-element-form">
+            <div class="form-group">
+                <input type="text" class="form-control" id="id-edit" hidden>
+            </div>
+              <div class="form-group">
+                <label for="input1">Input1:</label>
+                <input type="text" class="form-control" id="input1-edit" placeholder="Enter input1" name="input1">
+              </div>
+              <div class="form-group">
+                <label for="input2">Input2:</label>
+                <input type="number" class="form-control" id="input2-edit" placeholder="Enter input2" name="input2">
+              </div>
+              <div class="form-group">
+                <label for="input3">Input3:</label>
+                <select class="form-control" id="input3-edit" name="input3">
+                </select>
+              </div>
+              <button type="submit" class="btn btn-primary">Submit</button>
+              <button type="button" class="btn btn-danger" id="giveup-edit-button">Clear</button>
+            </form>
+          </div>
+      </div>
+  </body>
+</html>
