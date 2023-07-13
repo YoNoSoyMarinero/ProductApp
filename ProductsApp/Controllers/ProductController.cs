@@ -28,7 +28,12 @@ namespace ProductsApp.Controllers
         [HttpGet("{id}")]
         public IActionResult GetProduct(int id)
         {
-            return Ok(_productRepository.Get(id));
+            Product product = _productRepository.Get(id);
+            if (product == null)
+            {
+                return BadRequest();
+            }
+            return Ok(product);
         }
 
         [HttpPut("{id}")]
@@ -103,14 +108,14 @@ namespace ProductsApp.Controllers
                 {
                     CategoryName = x.Key.Name,
                     TotalPrice = x.Sum(x => x.Price)
-                }).OrderByDescending(x => x.TotalPrice).ToList().Take(2);
+                }).OrderByDescending(x => x.TotalPrice).ToList().Take(2).ToList();
             return Ok(totlaCategoryPrice);
         }
 
         [HttpGet("cheapest")]
         public IActionResult TwoCheapestProducts()
         {
-            return Ok(_productRepository.GetAll().OrderBy(p => p.Price).Take(2));
+            return Ok(_productRepository.GetAll().OrderBy(p => p.Price).Take(2).ToList());
         }
     }
 }
