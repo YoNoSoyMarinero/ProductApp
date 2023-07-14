@@ -13,12 +13,14 @@ const ADD_ELEMENT_DIV = document.getElementById("add-element-div");
 const EDIT_ELEMENT_DIV = document.getElementById("edit-element-div");
 const GIVEUP_POST_BUTTON = document.getElementById("giveup-post-button");
 const GIVEUP_EDIT_BUTTON = document.getElementById("giveup-edit-button");
+const PRICE_FILTER_INPUT = document.getElementById("price-filter-input");
+const PRICE_FILTER_BUTTON = document.getElementById("price-filter-button");
+const SELECT_FILTER_SELECT = document.getElementById("select-filter-select");
+const FILTER_BY_SELECT_DIV = document.getElementById("filter-by-select-div");
+const SELECT_FILTER_BUTTON = document.getElementById("select-filter-button")
+const FILTER_BY_PRICE_DIV = document.getElementById("filter-by-price-div");
 const LOGIN_FORM_REGISTRATION_BUTTONN = document.getElementById("login-form-registration-button");
 const REGISTRATION_FORM_LOGIN_BUTTON = document.getElementById("registration-form-login-button");
-
-//CONSTANTS
-const PORT = "44395";
-const URL = `https://localhost:${PORT}/`;
 
 //GLOBAL VARIABLES
 let loggedIn = false;
@@ -42,13 +44,20 @@ const validateInput3 = (input) => {
     return true;
 }
 
+const validateSearch = (input) => {
+    return true;
+}
+
 
 //HELPER FUNCTIONS
 const getUrl = (endpoint) => {
+    const PORT = "44395";
+    const URL = `https://localhost:${PORT}/`;
     return URL + endpoint;
 }
 
 const createTable = (data) => {
+    document.getElementById("table-div").innerHTML = "";
     const table = document.createElement("table");
     table.className = "table table-striped table-bordered table-hover";
     const headers = ["Name", "Category", "Price"];
@@ -100,22 +109,15 @@ const createTable = (data) => {
     document.getElementById("table-div").appendChild(table);
   };
 
-const populateSelect = (data) => {
-    const addSelect = document.getElementById("input3-post");
-    const editSelect = document.getElementById("input3-edit");
-    while (addSelect.firstChild) {
-        addSelect.removeChild(addSelect.firstChild);
-        editSelect.removeChild(editSelect.firstChild)
+const populateSelect = (data, select) => {
+    while (select.firstChild) {
+        select.removeChild(select.firstChild);
     }
     data.forEach((item) => {
-      const addOption = document.createElement("option");
-      const editOption = document.createElement("option");
-      addOption.value = item.id;
-      addOption.textContent = item.name;
-      addSelect.appendChild(addOption);
-      editOption.value = item.id;
-      editOption.textContent = item.name;
-      editSelect.appendChild(editOption);
+      const option = document.createElement("option");
+      option.value = item.id;
+      option.textContent = item.name;
+      select.appendChild(option);
     });
   };
 
@@ -124,6 +126,8 @@ const handleDOMLoad = () => {
     LOGIN_FORM_DIV.style.display = loggedIn ? "none" : "block";
     REGISTRATION_FORM_DIV.style.display = "none";
     ADD_ELEMENT_DIV.style.display = loggedIn ? "block" : "none";
+    FILTER_BY_PRICE_DIV.style.display = loggedIn ? "block" : "none";
+    FILTER_BY_SELECT_DIV.style.display = loggedIn ? "block": "none";
     EDIT_ELEMENT_DIV.style.display = "none";
     LOGOUT_BUTTON.style.display = loggedIn ? "block" : "none";
     loadData()
@@ -147,11 +151,25 @@ async function loadData(){
     TABLE_DIV.innerHTML = "";
     const tableData = await getHttpRequest(getUrl("api/Product"));
     const selectData = await getHttpRequest(getUrl("api/Category"));
+    const addSelect = document.getElementById("input3-post");
+    const editSelect = document.getElementById("input3-edit");
+    const appSelect = [addSelect, editSelect, SELECT_FILTER_SELECT]
     createTable(tableData);
-    populateSelect(selectData);
+    appSelect.forEach(s => populateSelect(selectData, s))
 }
 
 //ASYNC EVENT HANDLERS
+async function handleSearch(){
+    const data = await getHttpRequest(getUrl(`api/Product/searchByPrice/${PRICE_FILTER_INPUT.value}`));
+    createTable(data);
+}
+
+async function handleSelectSearch(){
+    console.log("Haha")
+    const data = await getHttpRequest(getUrl(`api/Product/searchByCategory/${SELECT_FILTER_SELECT.options[SELECT_FILTER_SELECT.selectedIndex].text}`))
+    createTable(data);
+}
+
 async function handleLogin(e){
     e.preventDefault();
     const usernameInput = document.getElementById("username-login")
@@ -391,7 +409,9 @@ REGISTRATION_FORM.addEventListener("submit", handleRegistration)
 ADD_ELEMENT_FORM.addEventListener("submit", handlePost)
 EDIT_ELEMENT_FORM.addEventListener("submit", handleEditSubmit)
 LOGOUT_BUTTON.addEventListener("click", handleLogut)
+PRICE_FILTER_BUTTON.addEventListener("click", handleSearch)
 LOGIN_FORM_REGISTRATION_BUTTONN.addEventListener("click", handleShowRegistration)
 REGISTRATION_FORM_LOGIN_BUTTON.addEventListener("click", handleDOMLoad)
+SELECT_FILTER_BUTTON.addEventListener("click", handleSelectSearch)
 GIVEUP_POST_BUTTON.addEventListener("click", () => ADD_ELEMENT_FORM.reset())
 GIVEUP_EDIT_BUTTON.addEventListener("click", () => EDIT_ELEMENT_FORM.reset())
